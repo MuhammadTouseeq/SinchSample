@@ -1,0 +1,15 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="homeAsUpIndicator">@drawable/ic_back</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+
+    </style>
+</resources>

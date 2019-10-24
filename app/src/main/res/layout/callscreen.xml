@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+    android:background="@color/colorPrimary"
+                android:weightSum="5">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="1"
+
+            >
+
+        <TextView
+                android:id="@+id/remoteUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:text="User"
+                android:textColor="@android:color/white"
+                android:textSize="28sp"/>
+
+        <TextView
+                android:id="@+id/callState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Ringing"
+                android:textColor="@color/off_white"
+                android:textSize="16sp"
+                android:textAllCaps="true"
+                />
+
+        <TextView
+                android:id="@+id/callDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="4dp"
+                android:text="00:00"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/off_white"
+                android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+        android:background="@drawable/user_profile"
+            android:padding="0dip"
+        android:layout_margin="15dp"
+            android:layout_weight="3"
+            android:contentDescription="Call background">
+
+    </ImageView>
+
+
+    <ImageView
+        android:layout_width="70dp"
+        android:src="@drawable/ic_call_end"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:id="@+id/btnEndCall"
+        android:background="@drawable/shape_circle_red"
+        android:layout_height="70dp"/>
+
+    <LinearLayout
+            android:id="@+id/bottomPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+android:visibility="gone"
+            android:layout_weight="1">
+        <Button
+                android:id="@+id/hangupButton"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/button_end"/>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
