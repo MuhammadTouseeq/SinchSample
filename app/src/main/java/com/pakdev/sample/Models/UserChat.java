@@ -6,6 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.pakdev.sample.Repository.DateConverter;
+
+import java.util.Date;
 
 @Entity(tableName = "UserChat")
 
@@ -15,7 +20,6 @@ public class UserChat {
     @ColumnInfo(name = "MessageId")
     public String MessageId;
 
-   // public String MessageId;
 
     public String getMessageId() {
         return MessageId;
@@ -49,18 +53,20 @@ public class UserChat {
         SenderId = senderId;
     }
 
-    public String getTimeStamp() {
+    public long getTimeStamp() {
         return TimeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(long timeStamp) {
         TimeStamp = timeStamp;
     }
 
     public String Message;
     public String RecipientId;
     public String SenderId;
-    public String TimeStamp;
+    @TypeConverters(DateConverter.class)
+
+    public long TimeStamp;
 
     public String getType() {
         return Type;

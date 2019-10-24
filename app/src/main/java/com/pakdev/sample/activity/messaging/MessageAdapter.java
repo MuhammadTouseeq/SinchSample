@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.pakdev.sample.Models.UserChat;
 import com.pakdev.sample.R;
+import com.pakdev.sample.Repository.DateConverter;
 import com.sinch.android.rtc.messaging.Message;
 
 import java.text.SimpleDateFormat;
@@ -86,7 +87,7 @@ public class MessageAdapter extends BaseAdapter {
 
 //        txtSender.setText(name);
         txtMessage.setText(mMessagesnew.get(i).getMessage());
-        txtDate.setText(mMessagesnew.get(i).getTimeStamp());
+        txtDate.setText(DateConverter.toDate(mMessagesnew.get(i).getTimeStamp()).toString());
 
         return convertView;
     }

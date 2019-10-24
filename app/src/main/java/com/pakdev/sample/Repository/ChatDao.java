@@ -15,7 +15,7 @@ public interface ChatDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertItem(UserChat items);
 
-    @Query("SELECT * from UserChat")
+    @Query("SELECT * from UserChat order by TimeStamp")
     List<UserChat> getallChat();
 
     @Query("DELETE FROM UserChat")

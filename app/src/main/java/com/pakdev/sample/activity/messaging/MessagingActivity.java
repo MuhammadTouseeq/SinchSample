@@ -60,6 +60,7 @@ public class MessagingActivity extends AppCompatActivity implements MessageClien
     private ImageView btnVideo;
     DbRepository repo;
     UserChat uc;
+    private String messageId = "-1";
 
 
     @Override
@@ -276,14 +277,18 @@ public class MessagingActivity extends AppCompatActivity implements MessageClien
     }
 
     public void setMessages(Message message, String type) {
+
         uc.setMessageId(message.getMessageId());
         uc.setMessage(message.getTextBody());
         uc.setRecipientId(SinchSdk.RECIPENT_ID);
         uc.setSenderId(SinchSdk.USER_ID);
         uc.setMessageId(message.getMessageId());
         uc.setType(type);
-        uc.setTimeStamp(String.valueOf(message.getTimestamp()));
-        mMessageAdapter.addMessage(uc);
+        uc.setTimeStamp(message.getTimestamp().getTime());
+        if (!messageId.equals(message.getMessageId())) {
+            mMessageAdapter.addMessage(uc);
+        }
+        messageId = message.getMessageId();
         insertChatMessages(uc);
     }
 }
