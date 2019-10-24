@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.pakdev.sample.Models.UserChat;
 import com.pakdev.sample.R;
 import com.sinch.android.rtc.messaging.Message;
 
@@ -21,51 +22,50 @@ public class MessageAdapter extends BaseAdapter {
 
     public static final int DIRECTION_OUTGOING = 1;
 
-    private List<Pair<Message, Integer>> mMessages;
+    //private List<Pair<Message, Integer>> mMessages;
+    private List<UserChat> mMessagesnew = new ArrayList<>();
 
     private SimpleDateFormat mFormatter;
 
     private LayoutInflater mInflater;
 
-    public MessageAdapter(Activity activity) {
+    public MessageAdapter(Activity activity, List<UserChat> uc) {
+        this.mMessagesnew = uc;
         mInflater = activity.getLayoutInflater();
-        mMessages = new ArrayList<Pair<Message, Integer>>();
-        mFormatter = new SimpleDateFormat("HH:mm");
+        //  mMessages = new ArrayList<Pair<Message, Integer>>();
+     //   mFormatter = new SimpleDateFormat("HH:mm");
     }
 
-    public void addMessage(Message message, int direction) {
-        mMessages.add(new Pair(message, direction));
+    public void addMessage(UserChat chat_message) {
+        //    mMessages.add(new Pair(message, direction));
+        mMessagesnew.add(chat_message);
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return mMessages.size();
+        if (mMessagesnew != null) {
+            return mMessagesnew.size();
+
+        }
+        return 0;
+
     }
 
     @Override
     public Object getItem(int i) {
-        return mMessages.get(i);
+        return mMessagesnew.get(i);
     }
 
     @Override
-    public long getItemId(int i) {
+    public long getItemId(int position) {
         return 0;
     }
 
-    @Override
-    public int getViewTypeCount() {
-        return 2;
-    }
-
-    @Override
-    public int getItemViewType(int i) {
-        return mMessages.get(i).second;
-    }
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
-        int direction = getItemViewType(i);
+        int direction = Integer.parseInt(mMessagesnew.get(i).getType());
 
         if (convertView == null) {
             int res = 0;
@@ -77,16 +77,16 @@ public class MessageAdapter extends BaseAdapter {
             convertView = mInflater.inflate(res, viewGroup, false);
         }
 
-        Message message = mMessages.get(i).first;
-        String name = message.getSenderId();
+      /*  Message message = mMessages.get(i).first;
+        String name = message.getSenderId();*/
 
 //        TextView txtSender = (TextView) convertView.findViewById(R.id.txtSender);
         TextView txtMessage = (TextView) convertView.findViewById(R.id.txtMessage);
         TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);
 
 //        txtSender.setText(name);
-        txtMessage.setText(message.getTextBody());
-        txtDate.setText(mFormatter.format(message.getTimestamp()));
+        txtMessage.setText(mMessagesnew.get(i).getMessage());
+        txtDate.setText(mMessagesnew.get(i).getTimeStamp());
 
         return convertView;
     }
