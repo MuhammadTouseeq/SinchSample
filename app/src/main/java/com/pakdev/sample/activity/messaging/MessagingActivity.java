@@ -68,7 +68,7 @@ public class MessagingActivity extends AppCompatActivity implements MessageClien
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messaging);
         repo = new DbRepository(this);
-        uc = new UserChat();
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -153,6 +153,7 @@ public class MessagingActivity extends AppCompatActivity implements MessageClien
 
     @Override
     public void onMessageSent(MessageClient client, Message message, String recipientId) {
+        Toast.makeText(this, "call sent : " + message.getTextBody(), Toast.LENGTH_SHORT).show();
         setMessages(message, String.valueOf(MessageAdapter.DIRECTION_OUTGOING));
         //mMessageAdapter.addMessage(message, MessageAdapter.DIRECTION_OUTGOING);
     }
@@ -277,19 +278,19 @@ public class MessagingActivity extends AppCompatActivity implements MessageClien
     }
 
     public void setMessages(Message message, String type) {
-
+        uc = new UserChat();
         uc.setMessageId(message.getMessageId());
         uc.setMessage(message.getTextBody());
         uc.setRecipientId(SinchSdk.RECIPENT_ID);
         uc.setSenderId(SinchSdk.USER_ID);
-        uc.setMessageId(message.getMessageId());
         uc.setType(type);
         uc.setTimeStamp(message.getTimestamp().getTime());
         if (!messageId.equals(message.getMessageId())) {
             mMessageAdapter.addMessage(uc);
+            insertChatMessages(uc);
         }
         messageId = message.getMessageId();
-        insertChatMessages(uc);
+
     }
 }
 

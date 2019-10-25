@@ -34,11 +34,12 @@ public class MessageAdapter extends BaseAdapter {
         this.mMessagesnew = uc;
         mInflater = activity.getLayoutInflater();
         //  mMessages = new ArrayList<Pair<Message, Integer>>();
-     //   mFormatter = new SimpleDateFormat("HH:mm");
+        //   mFormatter = new SimpleDateFormat("HH:mm");
     }
 
     public void addMessage(UserChat chat_message) {
         //    mMessages.add(new Pair(message, direction));
+
         mMessagesnew.add(chat_message);
         notifyDataSetChanged();
     }
@@ -60,7 +61,7 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
 
@@ -71,17 +72,14 @@ public class MessageAdapter extends BaseAdapter {
         if (convertView == null) {
             int res = 0;
             if (direction == DIRECTION_INCOMING) {
-                res = R.layout.message_right;
+                res = R.layout.item_chat_right;
             } else if (direction == DIRECTION_OUTGOING) {
                 res = R.layout.item_chat_left;
             }
             convertView = mInflater.inflate(res, viewGroup, false);
         }
 
-      /*  Message message = mMessages.get(i).first;
-        String name = message.getSenderId();*/
 
-//        TextView txtSender = (TextView) convertView.findViewById(R.id.txtSender);
         TextView txtMessage = (TextView) convertView.findViewById(R.id.txtMessage);
         TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);
 

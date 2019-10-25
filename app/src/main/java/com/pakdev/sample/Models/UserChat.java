@@ -15,9 +15,10 @@ import java.util.Date;
 @Entity(tableName = "UserChat")
 
 public class UserChat {
-    @PrimaryKey
-    @NonNull
-    @ColumnInfo(name = "MessageId")
+
+    // @PrimaryKey
+    //@NonNull
+    //@ColumnInfo(name = "MessageId")
     public String MessageId;
 
 
@@ -36,6 +37,22 @@ public class UserChat {
     public void setMessage(String message) {
         Message = message;
     }
+
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+
+    public int id;
+
+
+    public int getid() {
+        return id;
+    }
+
+    public void setid(String id) {
+        id = id;
+    }
+
 
     public String getRecipientId() {
         return RecipientId;
