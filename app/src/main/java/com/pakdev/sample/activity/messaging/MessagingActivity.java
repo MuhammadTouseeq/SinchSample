@@ -5,7 +5,9 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.pakdev.sample.Models.UserChat;
 import com.pakdev.sample.R;
+import com.pakdev.sample.Repository.DbRepository;
 import com.pakdev.sample.sinchClient.SinchSdk;
 
 
@@ -56,11 +58,16 @@ public class MessagingActivity extends AppCompatActivity implements MessageClien
     private ImageView btnCall;
     private SinchClient instance;
     private ImageView btnVideo;
+    DbRepository repo;
+    UserChat uc;
+    private String messageId = "-1";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messaging);
+        repo = new DbRepository(this);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -93,12 +100,12 @@ public class MessagingActivity extends AppCompatActivity implements MessageClien
         btnVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-requestCameraPermission();
+                requestCameraPermission();
 
             }
         });
 
-        mMessageAdapter = new MessageAdapter(this);
+        mMessageAdapter = new MessageAdapter(this, repo.getAllChat());
         ListView messagesList = (ListView) findViewById(R.id.lstMessages);
         messagesList.setAdapter(mMessageAdapter);
 
@@ -139,12 +146,16 @@ requestCameraPermission();
 
     @Override
     public void onIncomingMessage(MessageClient client, Message message) {
-        mMessageAdapter.addMessage(message, MessageAdapter.DIRECTION_INCOMING);
+
+        setMessages(message, String.valueOf(MessageAdapter.DIRECTION_INCOMING));
+        //mMessageAdapter.addMessage(message, MessageAdapter.DIRECTION_INCOMING);
     }
 
     @Override
     public void onMessageSent(MessageClient client, Message message, String recipientId) {
-        mMessageAdapter.addMessage(message, MessageAdapter.DIRECTION_OUTGOING);
+        Toast.makeText(this, "call sent : " + message.getTextBody(), Toast.LENGTH_SHORT).show();
+        setMessages(message, String.valueOf(MessageAdapter.DIRECTION_OUTGOING));
+        //mMessageAdapter.addMessage(message, MessageAdapter.DIRECTION_OUTGOING);
     }
 
     @Override
@@ -229,7 +240,7 @@ requestCameraPermission();
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         // check if all permissions are granted
                         if (report.areAllPermissionsGranted()) {
-videoCallUser();
+                            videoCallUser();
 
                         }
 
@@ -245,21 +256,41 @@ videoCallUser();
                 .check();
     }
 
-    private void CallUser()
-    {
+    private void CallUser() {
         Call call = SinchSdk.getInstance(getApplicationContext()).getCallClient().callUserVideo(SinchSdk.RECIPENT_ID);
         String callId = call.getCallId();
         Intent callScreen = new Intent(MessagingActivity.this, CallScreenActivity.class);
         callScreen.putExtra(SinchSdk.CALL_ID, callId);
         startActivity(callScreen);
     }
-    private void videoCallUser()
-    {
+
+    private void videoCallUser() {
         Call call = SinchSdk.getInstance(getApplicationContext()).getCallClient().callUser(SinchSdk.RECIPENT_ID);
         String callId = call.getCallId();
         Intent callScreen = new Intent(MessagingActivity.this, CallScreenActivity.class);
         callScreen.putExtra(SinchSdk.CALL_ID, callId);
         startActivity(callScreen);
+    }
+
+    public void insertChatMessages(UserChat uc) {
+
+        repo.insertItems(uc);
+    }
+
+    public void setMessages(Message message, String type) {
+        uc = new UserChat();
+        uc.setMessageId(message.getMessageId());
+        uc.setMessage(message.getTextBody());
+        uc.setRecipientId(SinchSdk.RECIPENT_ID);
+        uc.setSenderId(SinchSdk.USER_ID);
+        uc.setType(type);
+        uc.setTimeStamp(message.getTimestamp().getTime());
+        if (!messageId.equals(message.getMessageId())) {
+            mMessageAdapter.addMessage(uc);
+            insertChatMessages(uc);
+        }
+        messageId = message.getMessageId();
+
     }
 }
 
