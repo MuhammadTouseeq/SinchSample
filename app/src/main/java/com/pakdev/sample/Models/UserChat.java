@@ -85,15 +85,15 @@ public class UserChat {
 
     public long TimeStamp;
 
-    public String getType() {
+    public int getType() {
         return Type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         Type = type;
     }
 
-    public String Type;
+    public int Type;
 
 
 }

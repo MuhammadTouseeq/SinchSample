@@ -1,6 +1,7 @@
 package com.pakdev.sample.activity.messaging;
 
 import android.app.Activity;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,6 @@ public class MessageAdapter extends BaseAdapter {
     //private List<Pair<Message, Integer>> mMessages;
     private List<UserChat> mMessagesnew = new ArrayList<>();
 
-    private SimpleDateFormat mFormatter;
 
     private LayoutInflater mInflater;
 
@@ -39,9 +39,8 @@ public class MessageAdapter extends BaseAdapter {
 
     public void addMessage(UserChat chat_message) {
         //    mMessages.add(new Pair(message, direction));
-
         mMessagesnew.add(chat_message);
-        notifyDataSetChanged();
+        // notifyDataSetChanged();
     }
 
     @Override
@@ -64,18 +63,32 @@ public class MessageAdapter extends BaseAdapter {
         return position;
     }
 
+    @Override
+    public int getViewTypeCount() {
+
+        return getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        return position;
+    }
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
-        int direction = Integer.parseInt(mMessagesnew.get(i).getType());
+        int direction = mMessagesnew.get(i).getType();
+        Log.d("##", "this is : " + direction);
+        int res = 0;
+        if (direction == DIRECTION_INCOMING) {
+            res = R.layout.item_chat_left;
 
+        } else if (direction == DIRECTION_OUTGOING) {
+            res = R.layout.item_chat_right;
+
+        }
         if (convertView == null) {
-            int res = 0;
-            if (direction == DIRECTION_INCOMING) {
-                res = R.layout.item_chat_right;
-            } else if (direction == DIRECTION_OUTGOING) {
-                res = R.layout.item_chat_left;
-            }
+
             convertView = mInflater.inflate(res, viewGroup, false);
         }
 

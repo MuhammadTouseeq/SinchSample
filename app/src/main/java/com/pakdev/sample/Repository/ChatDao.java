@@ -15,10 +15,13 @@ public interface ChatDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertItem(UserChat items);
 
-    @Query("SELECT * from UserChat order by id DESC")
+    @Query("SELECT * from UserChat order by id ASC")
     List<UserChat> getallChat();
 
     @Query("DELETE FROM UserChat")
     void delete();
+
+    @Query("SELECT count(*) from UserChat where MessageId=:messageid")
+    int getMessageCount(String messageid);
 }
 
