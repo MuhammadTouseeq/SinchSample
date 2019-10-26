@@ -147,14 +147,14 @@ public class MessagingActivity extends AppCompatActivity implements MessageClien
     @Override
     public void onIncomingMessage(MessageClient client, Message message) {
 
-        setMessages(message, String.valueOf(MessageAdapter.DIRECTION_INCOMING));
+        setMessages(message, MessageAdapter.DIRECTION_INCOMING);
         //mMessageAdapter.addMessage(message, MessageAdapter.DIRECTION_INCOMING);
     }
 
     @Override
     public void onMessageSent(MessageClient client, Message message, String recipientId) {
         Toast.makeText(this, "call sent : " + message.getTextBody(), Toast.LENGTH_SHORT).show();
-        setMessages(message, String.valueOf(MessageAdapter.DIRECTION_OUTGOING));
+        setMessages(message, MessageAdapter.DIRECTION_OUTGOING);
         //mMessageAdapter.addMessage(message, MessageAdapter.DIRECTION_OUTGOING);
     }
 
@@ -277,19 +277,25 @@ public class MessagingActivity extends AppCompatActivity implements MessageClien
         repo.insertItems(uc);
     }
 
-    public void setMessages(Message message, String type) {
-        uc = new UserChat();
-        uc.setMessageId(message.getMessageId());
-        uc.setMessage(message.getTextBody());
-        uc.setRecipientId(SinchSdk.RECIPENT_ID);
-        uc.setSenderId(SinchSdk.USER_ID);
-        uc.setType(type);
-        uc.setTimeStamp(message.getTimestamp().getTime());
-        if (!messageId.equals(message.getMessageId())) {
-            mMessageAdapter.addMessage(uc);
+    public void setMessages(Message message, int type) {
+        if (repo.getRowCount(message.getMessageId()) == 0) {
+            uc = new UserChat();
+            uc.setMessageId(message.getMessageId());
+            uc.setMessage(message.getTextBody());
+            uc.setRecipientId(SinchSdk.RECIPENT_ID);
+            uc.setSenderId(SinchSdk.USER_ID);
+            uc.setType(type);
+            uc.setTimeStamp(message.getTimestamp().getTime());
+            //  if (!messageId.equals(message.getMessageId())) {
+
             insertChatMessages(uc);
+            mMessageAdapter.addMessage(uc);
+            mMessageAdapter.notifyDataSetChanged();
+            //  }
+//            messageId = message.getMessageId();
+
+
         }
-        messageId = message.getMessageId();
 
     }
 }

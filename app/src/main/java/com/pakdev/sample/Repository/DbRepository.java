@@ -33,6 +33,10 @@ public class DbRepository {
 
     }
 
+    public int getRowCount(String msgid) {
+
+        return chatdao.getMessageCount(msgid);
+    }
 
     public void deleteAllitems() {
         new deleteAsync(chatdao).execute();
