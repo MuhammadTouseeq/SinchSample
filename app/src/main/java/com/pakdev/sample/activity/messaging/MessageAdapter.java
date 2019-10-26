@@ -2,7 +2,6 @@ package com.pakdev.sample.activity.messaging;
 
 import android.app.Activity;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,7 @@ import android.widget.TextView;
 import com.pakdev.sample.Models.UserChat;
 import com.pakdev.sample.R;
 import com.pakdev.sample.Repository.DateConverter;
-import com.sinch.android.rtc.messaging.Message;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +43,7 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (mMessagesnew != null) {
+
             return mMessagesnew.size();
 
         }
@@ -66,35 +64,39 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public int getViewTypeCount() {
 
-        return getCount();
+        return 2;
     }
 
     @Override
     public int getItemViewType(int position) {
 
-        return position;
+        return mMessagesnew.get(position).getType();
     }
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
-        int direction = mMessagesnew.get(i).getType();
+        //ViewH
+        int direction = getItemViewType(i);
         Log.d("##", "this is : " + direction);
         int res = 0;
-        if (direction == DIRECTION_INCOMING) {
-            res = R.layout.item_chat_left;
 
-        } else if (direction == DIRECTION_OUTGOING) {
-            res = R.layout.item_chat_right;
-
-        }
         if (convertView == null) {
 
+            if (direction == DIRECTION_INCOMING) {
+                res = R.layout.item_chat_right;
+
+            } else if (direction == DIRECTION_OUTGOING) {
+                res = R.layout.item_chat_left;
+
+            }
             convertView = mInflater.inflate(res, viewGroup, false);
+
+
         }
 
 
-        TextView txtMessage = (TextView) convertView.findViewById(R.id.txtMessage);
-        TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);
+        TextView txtMessage = convertView.findViewById(R.id.txtMessage);
+        TextView txtDate = convertView.findViewById(R.id.txtDate);
 
 //        txtSender.setText(name);
         txtMessage.setText(mMessagesnew.get(i).getMessage());
