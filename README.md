@@ -13,7 +13,7 @@ If your pull request is not accepted on the first try, don't be discouraged! If 
 
 Before making a pull request please raise an issue with enchancement tag.
 
-You can also write to at smtrz@yahoo.com / developertouseeq@gmail.com
+You can also write to us at smtrz@yahoo.com / developertouseeq@gmail.com
 
 Thanks.
 
